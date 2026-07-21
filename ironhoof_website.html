@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronHoof Wheels - Premium Forged & Cast Wheels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#900B0C',
+                            dark: '#0a0a0a',
+                            gray: '#1a1a1a',
+                            light: '#f5f5f5'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Oswald', sans-serif; }
+
+        /* Video Background */
+        .video-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        /* Hero overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+        }
+
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Product card hover */
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(144, 11, 12, 0.25);
+        }
+        .product-card .product-img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        /* Nav scroll effect */
+        .nav-scrolled {
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Category tab active */
+        .cat-tab.active {
+            background: #900B0C;
+            color: white;
+            border-color: #900B0C;
+        }
+
+        /* Button shine effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #900B0C; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b00e0f; }
+
+        /* Loader */
+        .loader {
+            border: 3px solid rgba(144, 11, 12, 0.3);
+            border-top-color: #900B0C;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Parallax */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Image lazy load fade */
+        .img-fade {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .img-fade.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-white antialiased">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <img src="新logo.png" alt="IronHoof Wheels" class="h-12 w-auto brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-300">
+                    <div class="hidden sm:block">
+                        <span class="font-display text-2xl font-bold tracking-wider text-white">IRONHOOF</span>
+                        <span class="block text-[10px] tracking-[0.3em] text-gray-400 uppercase">Wheels</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="#home" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">Home</a>
+                    <a href="#products" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">Products</a>
+                    <a href="#about" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">About Us</a>
+                    <a href="#contact" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">Contact</a>
+                </div>
+
+                <!-- CTA + Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <a href="#contact" class="hidden sm:inline-flex btn-shine bg-brand-red hover:bg-red-800 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors">
+                        Get Quote
+                    </a>
+                    <button id="mobile-toggle" class="md:hidden text-white p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-y-0 right-0 w-80 bg-brand-dark/98 backdrop-blur-xl z-[60] border-l border-white/10">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-10">
+                <span class="font-display text-xl font-bold">MENU</span>
+                <button id="mobile-close" class="text-white p-2 hover:bg-white/10 rounded-lg transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="#home" class="mobile-link px-4 py-3 text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">Home</a>
+                <a href="#products" class="mobile-link px-4 py-3 text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">Products</a>
+                <a href="#about" class="mobile-link px-4 py-3 text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">About Us</a>
+                <a href="#contact" class="mobile-link px-4 py-3 text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all">Contact</a>
+            </div>
+            <div class="mt-10 pt-6 border-t border-white/10">
+                <p class="text-sm text-gray-500 mb-3">Get in touch</p>
+                <a href="tel:+8618383944797" class="flex items-center gap-3 text-gray-300 hover:text-brand-red transition-colors py-2">
+                    <i class="fas fa-phone text-sm"></i>
+                    <span class="text-sm">+86 183 8394 4797</span>
+                </a>
+                <a href="mailto:ironhoof.ellens@gamil.com" class="flex items-center gap-3 text-gray-300 hover:text-brand-red transition-colors py-2">
+                    <i class="fas fa-envelope text-sm"></i>
+                    <span class="text-sm break-all">ironhoof.ellens@gamil.com</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-[55] hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- ==================== HOME / HERO ==================== -->
+    <section id="home" class="relative w-full h-screen overflow-hidden">
+        <!-- Video Background -->
+        <video class="video-bg" autoplay muted loop playsinline poster="黑色碳纤维 拷贝.png">
+            <source src="https://videos.pexels.com/video-files/5309381/5309381-hd_1920_1080_25fps.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 h-full flex items-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="max-w-3xl">
+                    <div class="reveal active">
+                        <p class="text-brand-red font-semibold tracking-[0.3em] uppercase text-sm mb-4">Premium Wheel Manufacturer</p>
+                        <h1 class="font-display text-5xl sm:text-7xl lg:text-8xl font-bold leading-[0.95] mb-6">
+                            FORGED<br>
+                            <span class="text-brand-red">PERFECTION</span>
+                        </h1>
+                        <p class="text-gray-300 text-lg sm:text-xl max-w-xl mb-10 leading-relaxed">
+                            Engineered for performance. Designed for distinction. IronHoof delivers world-class forged, flow-formed, and off-road wheels to discerning drivers worldwide.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#products" class="btn-shine bg-brand-red hover:bg-red-800 text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide transition-all inline-flex items-center gap-2">
+                                Explore Wheels <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="#about" class="border border-white/30 hover:border-white hover:bg-white/5 text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide transition-all">
+                                Our Story
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+            <a href="#products" class="text-white/50 hover:text-white transition-colors">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ==================== PRODUCTS ==================== -->
+    <section id="products" class="py-24 sm:py-32 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16 reveal">
+                <p class="text-brand-red font-semibold tracking-[0.3em] uppercase text-sm mb-3">Our Collection</p>
+                <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">WHEEL GALLERY</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Browse our complete range of premium wheels. From daily drivers to track beasts, we have the perfect fit for your ride.</p>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 mb-14 reveal">
+                <button class="cat-tab active px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium transition-all" data-cat="all">All Wheels</button>
+                <button class="cat-tab px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium transition-all hover:border-brand-red" data-cat="flow-formed">Flow Formed</button>
+                <button class="cat-tab px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium transition-all hover:border-brand-red" data-cat="forged">Forged</button>
+                <button class="cat-tab px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium transition-all hover:border-brand-red" data-cat="offroad">Off-Road</button>
+                <button class="cat-tab px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium transition-all hover:border-brand-red" data-cat="custom">Custom</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1 - Flow Formed -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="flow-formed">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="塑料黑色磨砂盖子 拷贝 2.png" alt="IH-FF01 Flow Formed Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">FLOW FORMED</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-FF01 SILVER</h3>
+                        <p class="text-gray-500 text-sm mb-3">Flow Formed Series</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$189 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">18"-22"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 - Forged -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="forged">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="黑色碳纤维 拷贝.png" alt="IH-FG01 Forged Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">FORGED</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-FG01 CARBON</h3>
+                        <p class="text-gray-500 text-sm mb-3">Monoblock Forged</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$459 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">19"-24"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 - Off-Road -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="offroad">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="塑料黑色磨砂盖子-1(1).png" alt="IH-OR01 Off-Road Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">OFF-ROAD</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-OR01 BEADLOCK</h3>
+                        <p class="text-gray-500 text-sm mb-3">Heavy Duty Off-Road</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$329 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">17"-20"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 - Custom -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="custom">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="塑料黑色磨砂盖子-2.png" alt="IH-CS01 Custom Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">CUSTOM</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-CS01 CHROME</h3>
+                        <p class="text-gray-500 text-sm mb-3">Custom Staggered</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$389 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">20"-26"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 - Flow Formed -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="flow-formed">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="塑料黑色磨砂盖子.png" alt="IH-FF02 Flow Formed Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">FLOW FORMED</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-FF02 GLOSS</h3>
+                        <p class="text-gray-500 text-sm mb-3">Flow Formed Series</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$199 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">18"-22"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 - Forged -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="forged">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="塑料黑色磨砂盖子 拷贝 3.png" alt="IH-FG02 Forged Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">FORGED</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-FG02 BLACK</h3>
+                        <p class="text-gray-500 text-sm mb-3">Monoblock Forged</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$439 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">19"-24"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 - Custom -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="custom">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="塑料黑色磨砂盖子-1.png" alt="IH-CS02 Custom Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">CUSTOM</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-CS02 MATTE</h3>
+                        <p class="text-gray-500 text-sm mb-3">Custom Staggered</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$369 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">20"-26"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 - Off-Road -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="offroad">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="轮毂颜色修改 (6).png" alt="IH-OR02 Off-Road Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">OFF-ROAD</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-OR02 GLOSS</h3>
+                        <p class="text-gray-500 text-sm mb-3">Heavy Duty Off-Road</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$349 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">17"-20"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 9 - Forged -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="forged">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="金属银色磨砂盖子-3.png" alt="IH-FG03 Forged Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">FORGED</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-FG03 BRUSHED</h3>
+                        <p class="text-gray-500 text-sm mb-3">Monoblock Forged</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$499 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">19"-24"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 10 - Flow Formed -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="flow-formed">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="金属银色磨砂盖子 拷贝.png" alt="IH-FF03 Flow Formed Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">FLOW FORMED</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-FF03 SILVER</h3>
+                        <p class="text-gray-500 text-sm mb-3">Flow Formed Series</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$209 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">18"-22"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 11 - Custom -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="custom">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="金属银色磨砂盖子-1.png" alt="IH-CS03 Custom Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">CUSTOM</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-CS03 TITANIUM</h3>
+                        <p class="text-gray-500 text-sm mb-3">Custom Staggered</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$419 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">20"-26"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 12 - Off-Road -->
+                <div class="product-card group bg-brand-gray rounded-2xl overflow-hidden border border-white/5 reveal" data-category="offroad">
+                    <div class="relative aspect-square overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900">
+                        <img src="金属银色磨砂盖子-2.png" alt="IH-OR03 Off-Road Wheel" class="product-img w-full h-full object-contain p-6 img-fade" onload="this.classList.add('loaded')">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">OFF-ROAD</span>
+                        </div>
+                        <div class="absolute inset-0 bg-brand-red/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <button class="bg-white text-brand-red px-6 py-3 rounded-full font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-1">IH-OR03 RAW</h3>
+                        <p class="text-gray-500 text-sm mb-3">Heavy Duty Off-Road</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-red font-bold text-lg">$299 <span class="text-gray-600 text-sm font-normal">/ pc</span></span>
+                            <span class="text-gray-500 text-xs">17"-20"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center mt-14 reveal">
+                <button id="load-more" class="btn-shine border border-brand-red text-brand-red hover:bg-brand-red hover:text-white px-10 py-4 rounded-full font-semibold text-sm tracking-wide transition-all">
+                    Load More Wheels
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT US ==================== -->
+    <section id="about" class="py-24 sm:py-32 bg-brand-gray relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-red/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-brand-red/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Content -->
+                <div class="reveal">
+                    <p class="text-brand-red font-semibold tracking-[0.3em] uppercase text-sm mb-3">About IronHoof</p>
+                    <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                        CRAFTING<br>
+                        <span class="text-brand-red">EXCELLENCE</span><br>
+                        SINCE 2015
+                    </h2>
+                    <div class="space-y-5 text-gray-400 text-lg leading-relaxed">
+                        <p>
+                            IronHoof Wheels is a premier manufacturer of high-performance automotive wheels, headquartered in Chengdu, China. We specialize in flow-formed, forged monoblock, and heavy-duty off-road wheels for the global market.
+                        </p>
+                        <p>
+                            Our state-of-the-art facility combines CNC precision machining with rigorous quality control, ensuring every wheel meets or exceeds JWL, VIA, and TUV standards. From concept to completion, we deliver wheels that balance aggressive aesthetics with uncompromising structural integrity.
+                        </p>
+                        <p>
+                            Trusted by distributors across North America, Europe, Australia, and Southeast Asia, IronHoof has become the go-to choice for enthusiasts who refuse to compromise.
+                        </p>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 mt-10 pt-10 border-t border-white/10">
+                        <div>
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-brand-red">500+</p>
+                            <p class="text-gray-500 text-sm mt-1">SKUs in Stock</p>
+                        </div>
+                        <div>
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-brand-red">50+</p>
+                            <p class="text-gray-500 text-sm mt-1">Countries Served</p>
+                        </div>
+                        <div>
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-brand-red">10M+</p>
+                            <p class="text-gray-500 text-sm mt-1">Wheels Produced</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Images -->
+                <div class="relative reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="rounded-2xl overflow-hidden border border-white/10">
+                                <img src="黑色碳纤维 拷贝.png" alt="Forged Wheel Detail" class="w-full h-64 object-contain bg-gradient-to-b from-gray-800 to-gray-900 p-4">
+                            </div>
+                            <div class="rounded-2xl overflow-hidden border border-white/10">
+                                <img src="塑料黑色磨砂盖子-1(1).png" alt="Off-Road Wheel" class="w-full h-48 object-contain bg-gradient-to-b from-gray-800 to-gray-900 p-4">
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-8">
+                            <div class="rounded-2xl overflow-hidden border border-white/10">
+                                <img src="金属银色磨砂盖子-3.png" alt="Brushed Finish Wheel" class="w-full h-48 object-contain bg-gradient-to-b from-gray-800 to-gray-900 p-4">
+                            </div>
+                            <div class="rounded-2xl overflow-hidden border border-white/10">
+                                <img src="轮毂颜色修改 (6).png" alt="Gloss Black Wheel" class="w-full h-64 object-contain bg-gradient-to-b from-gray-800 to-gray-900 p-4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating badge -->
+                    <div class="absolute -bottom-6 -left-6 bg-brand-red text-white px-6 py-4 rounded-2xl shadow-2xl shadow-brand-red/30">
+                        <p class="font-display text-2xl font-bold">ISO 9001</p>
+                        <p class="text-xs text-white/80">Certified Quality</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Us -->
+            <div class="mt-24">
+                <div class="text-center mb-14 reveal">
+                    <h3 class="font-display text-3xl sm:text-4xl font-bold">WHY CHOOSE IRONHOOF</h3>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-brand-dark/50 border border-white/5 rounded-2xl p-8 hover:border-brand-red/30 transition-colors reveal">
+                        <div class="w-14 h-14 bg-brand-red/10 rounded-xl flex items-center justify-center mb-5">
+                            <i class="fas fa-industry text-brand-red text-xl"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold mb-2">Own Factory</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Direct manufacturing with full quality control from raw material to finished product.</p>
+                    </div>
+                    <div class="bg-brand-dark/50 border border-white/5 rounded-2xl p-8 hover:border-brand-red/30 transition-colors reveal">
+                        <div class="w-14 h-14 bg-brand-red/10 rounded-xl flex items-center justify-center mb-5">
+                            <i class="fas fa-certificate text-brand-red text-xl"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold mb-2">Certified Safe</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">JWL, VIA, and TUV certified. Every wheel undergoes X-ray and impact testing.</p>
+                    </div>
+                    <div class="bg-brand-dark/50 border border-white/5 rounded-2xl p-8 hover:border-brand-red/30 transition-colors reveal">
+                        <div class="w-14 h-14 bg-brand-red/10 rounded-xl flex items-center justify-center mb-5">
+                            <i class="fas fa-paint-brush text-brand-red text-xl"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold mb-2">Custom Finishes</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">OEM and ODM supported. Custom PCD, offset, color, and engraving available.</p>
+                    </div>
+                    <div class="bg-brand-dark/50 border border-white/5 rounded-2xl p-8 hover:border-brand-red/30 transition-colors reveal">
+                        <div class="w-14 h-14 bg-brand-red/10 rounded-xl flex items-center justify-center mb-5">
+                            <i class="fas fa-shipping-fast text-brand-red text-xl"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold mb-2">Global Shipping</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Fast sea and air freight to major ports worldwide with full insurance coverage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section id="contact" class="py-24 sm:py-32 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Contact Info -->
+                <div class="reveal">
+                    <p class="text-brand-red font-semibold tracking-[0.3em] uppercase text-sm mb-3">Get In Touch</p>
+                    <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-8">LET'S TALK<br><span class="text-brand-red">WHEELS</span></h2>
+                    <p class="text-gray-400 text-lg mb-10 leading-relaxed">
+                        Whether you're a distributor looking for bulk orders or an enthusiast seeking the perfect set, our team is ready to assist. Reach out today for a personalized quote.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone text-brand-red"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">Phone / WhatsApp</p>
+                                <a href="tel:+8618383944797" class="block text-white hover:text-brand-red transition-colors text-lg font-medium">+86 183 8394 4797</a>
+                                <a href="tel:+8618160027892" class="block text-white hover:text-brand-red transition-colors text-lg font-medium">+86 181 6002 7892</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fab fa-whatsapp text-brand-red text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">WhatsApp</p>
+                                <p class="text-white text-lg font-medium">Same as phone numbers above</p>
+                                <p class="text-gray-500 text-sm">Available 9:00 - 18:00 CST</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-brand-red"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">Email</p>
+                                <a href="mailto:ironhoof.ellens@gamil.com" class="text-white hover:text-brand-red transition-colors text-lg font-medium">ironhoof.ellens@gamil.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-5">
+                            <div class="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-brand-red"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">Factory Address</p>
+                                <p class="text-white text-lg font-medium">Chengdu, Sichuan, China</p>
+                                <p class="text-gray-500 text-sm">CDTUOZHONGXING Industrial Park</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social -->
+                    <div class="mt-10 pt-8 border-t border-white/10">
+                        <p class="text-gray-500 text-sm mb-4">Follow us</p>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-11 h-11 bg-white/5 hover:bg-brand-red rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-11 h-11 bg-white/5 hover:bg-brand-red rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-11 h-11 bg-white/5 hover:bg-brand-red rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-11 h-11 bg-white/5 hover:bg-brand-red rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-all">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="reveal">
+                    <form id="contact-form" class="bg-brand-gray rounded-3xl p-8 sm:p-10 border border-white/5">
+                        <h3 class="font-display text-2xl font-bold mb-6">Send Inquiry</h3>
+
+                        <div class="grid sm:grid-cols-2 gap-5 mb-5">
+                            <div>
+                                <label class="block text-gray-500 text-sm mb-2">Full Name</label>
+                                <input type="text" placeholder="John Doe" class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-red transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-sm mb-2">Email</label>
+                                <input type="email" placeholder="john@example.com" class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-red transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-5 mb-5">
+                            <div>
+                                <label class="block text-gray-500 text-sm mb-2">Phone / WhatsApp</label>
+                                <input type="tel" placeholder="+1 234 567 890" class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-red transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-sm mb-2">Company</label>
+                                <input type="text" placeholder="Your Company" class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-red transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="block text-gray-500 text-sm mb-2">Interested In</label>
+                            <select class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer">
+                                <option value="">Select Category</option>
+                                <option value="flow-formed">Flow Formed Wheels</option>
+                                <option value="forged">Forged Wheels</option>
+                                <option value="offroad">Off-Road Wheels</option>
+                                <option value="custom">Custom / Staggered</option>
+                                <option value="bulk">Bulk / Distributor Order</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-500 text-sm mb-2">Message</label>
+                            <textarea rows="4" placeholder="Tell us about your requirements..." class="w-full bg-brand-dark border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-red transition-colors resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-shine w-full bg-brand-red hover:bg-red-800 text-white py-4 rounded-xl font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
+                            <span>Send Inquiry</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+
+                        <p class="text-center text-gray-600 text-xs mt-4">We typically respond within 24 hours.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-black border-t border-white/5 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+                <!-- Brand -->
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <a href="#home" class="flex items-center gap-3 mb-5">
+                        <img src="新logo.png" alt="IronHoof Wheels" class="h-10 w-auto brightness-0 invert">
+                        <div>
+                            <span class="font-display text-xl font-bold tracking-wider">IRONHOOF</span>
+                            <span class="block text-[9px] tracking-[0.3em] text-gray-500 uppercase">Wheels</span>
+                        </div>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-5">
+                        Premium forged and flow-formed wheels manufactured in Chengdu, China. Delivering performance and style to drivers worldwide.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-display text-sm font-bold tracking-wider mb-5">QUICK LINKS</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Home</a></li>
+                        <li><a href="#products" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Products</a></li>
+                        <li><a href="#about" class="text-gray-500 hover:text-brand-red transition-colors text-sm">About Us</a></li>
+                        <li><a href="#contact" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h4 class="font-display text-sm font-bold tracking-wider mb-5">PRODUCTS</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#products" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Flow Formed</a></li>
+                        <li><a href="#products" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Forged Monoblock</a></li>
+                        <li><a href="#products" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Off-Road</a></li>
+                        <li><a href="#products" class="text-gray-500 hover:text-brand-red transition-colors text-sm">Custom Staggered</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-display text-sm font-bold tracking-wider mb-5">CONTACT</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fas fa-phone text-brand-red text-xs"></i>
+                            <a href="tel:+8618383944797" class="hover:text-white transition-colors">+86 183 8394 4797</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fas fa-phone text-brand-red text-xs"></i>
+                            <a href="tel:+8618160027892" class="hover:text-white transition-colors">+86 181 6002 7892</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fas fa-envelope text-brand-red text-xs"></i>
+                            <a href="mailto:ironhoof.ellens@gamil.com" class="hover:text-white transition-colors break-all">ironhoof.ellens@gamil.com</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fab fa-whatsapp text-brand-red text-xs"></i>
+                            <span>WhatsApp Available</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-gray-600 text-xs">© 2026 IronHoof Wheels (CDTUOZHONGXING). All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-600 hover:text-brand-red transition-colors text-xs">Privacy Policy</a>
+                    <a href="#" class="text-gray-600 hover:text-brand-red transition-colors text-xs">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-brand-red hover:bg-red-800 text-white rounded-full shadow-lg shadow-brand-red/30 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-40">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-brand-gray border border-white/10 text-white px-6 py-3 rounded-xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-3">
+        <i class="fas fa-check-circle text-green-500"></i>
+        <span id="toast-msg">Message sent successfully!</span>
+    </div>
+
+    <script>
+        // ==================== NAV SCROLL EFFECT ====================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // ==================== MOBILE MENU ====================
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileClose = document.getElementById('mobile-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMobile() {
+            mobileMenu.classList.add('open');
+            mobileOverlay.classList.remove('hidden');
+            setTimeout(() => mobileOverlay.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobile() {
+            mobileMenu.classList.remove('open');
+            mobileOverlay.classList.add('opacity-0');
+            setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+            document.body.style.overflow = '';
+        }
+
+        mobileToggle.addEventListener('click', openMobile);
+        mobileClose.addEventListener('click', closeMobile);
+        mobileOverlay.addEventListener('click', closeMobile);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMobile));
+
+        // ==================== SCROLL REVEAL ====================
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ==================== PRODUCT FILTERING ====================
+        const catTabs = document.querySelectorAll('.cat-tab');
+        const productCards = document.querySelectorAll('.product-card');
+
+        catTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                catTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const category = tab.dataset.cat;
+
+                productCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // ==================== LOAD MORE ====================
+        const loadMoreBtn = document.getElementById('load-more');
+        loadMoreBtn.addEventListener('click', () => {
+            showToast('More products coming soon! Contact us for the full catalog.');
+        });
+
+        // ==================== BACK TO TOP ====================
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                backToTop.classList.remove('opacity-0', 'pointer-events-none');
+                backToTop.classList.add('opacity-100');
+            } else {
+                backToTop.classList.add('opacity-0', 'pointer-events-none');
+                backToTop.classList.remove('opacity-100');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ==================== CONTACT FORM ====================
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Thank you! We will contact you within 24 hours.');
+            contactForm.reset();
+        });
+
+        // ==================== TOAST ====================
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+                toast.classList.remove('opacity-100');
+            }, 4000);
+        }
+
+        // ==================== SMOOTH SCROLL FOR ANCHORS ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ==================== LAZY LOAD IMAGES ====================
+        const lazyImages = document.querySelectorAll('.img-fade');
+        const imgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.src;
+                    img.onload = () => img.classList.add('loaded');
+                    imgObserver.unobserve(img);
+                }
+            });
+        });
+        lazyImages.forEach(img => imgObserver.observe(img));
+    </script>
+</body>
+</html>
