@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "content/products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Product Name", name: "title", widget: "string" }
+      - { label: "Model Number", name: "model", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["flow-formed", "forged", "offroad", "custom"] }
+      - { label: "Series", name: "series", widget: "string" }
+      - { label: "Price (USD)", name: "price", widget: "number", value_type: "int" }
+      - { label: "Size Range", name: "size", widget: "string" }
+      - { label: "Product Image", name: "image", widget: "image" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Description", name: "body", widget: "markdown", required: false }
